@@ -24,6 +24,19 @@ def products(request):
 
     return render(request, 'accounts/products.html', {'products': products})
 
-def customers(request):
-    return render(request, 'accounts/customers.html')
+def customers(request, pk_test):
+    customer = Customer.objects.get(id=pk_test)
+
+    orders = customer.order_set.all() # order_set is the name of the relationship in the Customer model
+
+    order_count = orders.count()
+
+    context = {'customer': customer , 'orders': orders, 'order_count': order_count}
+    return render(request, 'accounts/customers.html', context)
+
+def createOrder(request):
+
+
+    context = {}
+    return render(request, 'accounts/order_form.html')
 
