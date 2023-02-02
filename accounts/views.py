@@ -28,6 +28,9 @@ def products(request):
 
     return render(request, 'accounts/products.html', {'products': products})
 
+
+
+
 def customers(request, pk_test):
     customer = Customer.objects.get(id=pk_test)
 
@@ -35,9 +38,14 @@ def customers(request, pk_test):
     order_count = orders.count()
 
     myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
 
     context = {'customer': customer , 'orders': orders, 'order_count': order_count, 'myFilter': myFilter}
     return render(request, 'accounts/customers.html', context)
+
+
+
+
 
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=4)
