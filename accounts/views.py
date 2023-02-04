@@ -34,14 +34,15 @@ def products(request):
 def customers(request, pk_test):
     customer = Customer.objects.get(id=pk_test)
 
-    orders = customer.order_set.all() # order_set is the name of the relationship in the Customer model
+    orders = customer.order_set.all()
     order_count = orders.count()
 
     myFilter = OrderFilter(request.GET, queryset=orders)
     orders = myFilter.qs
 
-    context = {'customer': customer , 'orders': orders, 'order_count': order_count, 'myFilter': myFilter}
-    return render(request, 'accounts/customers.html', context)
+    context = {'customer': customer, 'orders': orders, 'order_count': order_count, 'myFilter': myFilter}
+    return render(request, 'accounts/customer.html', context)
+
 
 
 
@@ -59,9 +60,11 @@ def createOrder(request, pk):
             formset.save()
             return redirect('/')
 
- 
     context = {'formset': formset}
     return render(request, 'accounts/order_form.html', context)
+
+
+
 
 def updateOrder(request, pk):
 
@@ -78,11 +81,11 @@ def updateOrder(request, pk):
     context = {'form': form}
     return render(request, 'accounts/order_form.html', context)
 
-# def deleteOrder(request, pk):
-#     order = Order.objects.get(id=pk)
-#     if request.method == "POST":
-#         order.delete()
-#         return redirect('/')
+def deleteOrder(request, pk):
+    order = Order.objects.get(id=pk)
+    if request.method == "POST":
+        order.delete()
+        return redirect('/')
 
-#     context = {'item': order}
-#     return render(request, 'accounts/delete.html', context)
+    context = {'item': order}
+    return render(request, 'accounts/delete.html', context)
